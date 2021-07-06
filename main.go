@@ -17,6 +17,7 @@ package main
 import (
 	"bytes"
 	"flag"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -89,6 +90,17 @@ func hasGo111Module(env []string) bool {
 	return false
 }
 
+
+func GetCurrentDirectory() string {
+	dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
+	if err != nil {
+		fmt.Println(err)
+		//beego.Debug(err)
+	}
+	return strings.Replace(dir, "\\", "/", -1)
+}
+
+
 func handle(w http.ResponseWriter, r *http.Request) {
 	if *flagAllowOrigin != "" {
 		w.Header().Set("Access-Control-Allow-Origin", *flagAllowOrigin)
@@ -118,10 +130,18 @@ func handle(w http.ResponseWriter, r *http.Request) {
 
 	switch filepath.Base(fpath) {
 	case "index.html", ".":
+		if fpath == "." {
+			fpath = "index.html"
+		}
 		if _, err := os.Stat(fpath); err != nil && !os.IsNotExist(err) {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
+
+
+		http.ServeFile(w, r, fpath)
+		return
+		fmt.Println(fpath)
 		fargs := flag.Args()
 		argv := make([]string, 0, len(fargs))
 		for _, a := range fargs {
