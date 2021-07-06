@@ -5,7 +5,7 @@ An HTTP server for Wasm testing like `gopherjs serve`
 ## Installation
 
 ```sh
-go get -u github.com/hajimehoshi/wasmserve
+go get -u github.com/leapar/wasmserve
 ```
 
 ## Usage
@@ -36,7 +36,7 @@ Running a remote package
 
 ```sh
 # Be careful that `-tags=example` is required to run the below example application.
-wasmserve -tags=example github.com/hajimehoshi/wasmserve/example
+wasmserve -tags=example github.com/leapar/wasmserve/example
 ```
 
 And open `http://localhost:8080/` on your browser.
@@ -46,7 +46,7 @@ And open `http://localhost:8080/` on your browser.
 Running a local package
 
 ```sh
-git clone https://github.com/hajimehoshi/ebiten # This might take several minutes.
+git clone https://github.com/leapar/ebiten # This might take several minutes.
 cd ebiten
 wasmserve -tags=example ./examples/sprites
 ```
